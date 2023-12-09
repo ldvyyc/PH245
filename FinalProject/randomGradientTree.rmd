@@ -1,0 +1,14 @@
+```{r}
+library(ranger)
+# 假设数据已加载到名为data的数据框中
+data <- read.csv("mydata.csv", header = TRUE, sep = ",")
+# 选择自变量和因变量
+X <- data[, 4:ncol(data)]  # 选择除了前三列之外的所有列作为自变量
+y <- data$zhuanli  # 选择专利列作为因变量
+# 创建随机梯度树回归模型
+rf_model <- ranger(y ~ ., data = cbind(y, X), num.trees = 5000, importance = "permutation")
+# 获取各个自变量的重要性
+importance_df <- data.frame(variable = colnames(X), importance = rf_model$variable.importance)
+# 打印结果
+print(importance_df)
+```

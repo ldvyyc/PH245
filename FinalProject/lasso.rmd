@@ -1,0 +1,45 @@
+```{r}
+# 安装和加载必要的包
+library(glmnet)
+
+# 假设数据已加载到名为data的数据框中
+data <- read.csv("mydata.csv", header = TRUE, sep = ",")  # 读取csv文件
+head(data)
+```
+
+```{r}
+# 选择自变量和因变量
+X <- as.matrix(data[, 4:ncol(data)])  # 选择除了前三列之外的所有列作为自变量
+y <- data$zhuanli  # 选择专利列作为因变量
+head(X)
+# shape of X
+dim(X)
+head(y)
+```
+
+```{r}
+# 数据标准化
+X_scaled <- scale(X)
+head(X_scaled)
+```
+
+```{r}
+# 创建并拟合LASSO回归模型
+lasso_model <- cv.glmnet(x = X_scaled, y = y, alpha = 1)  # alpha = 1表示LASSO回归
+plot(lasso_model)  # 绘制模型图
+# summary(lasso_model)  # 输出模型摘要
+```
+
+```{r}
+
+# 输出选择的lambda（正则化参数）
+print(lasso_model$lambda)
+
+# 输出非零系数的变量
+print(coef(lasso_model))
+
+# 预测（可选）
+# predictions <- predict(lasso_model, newx = scale(as.matrix(test_data[, 4:ncol(test_data)])), s = "lambda.min")
+# print(predictions)
+
+```
