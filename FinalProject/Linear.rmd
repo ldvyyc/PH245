@@ -1,0 +1,12 @@
+```{r}
+# data processing
+library(readxl)
+sci <- read.csv("mydata.csv", header = TRUE, sep = ",")
+
+sci.tech<-as.matrix(sci[,5]); edu<-as.matrix(sci[,6]); gdp<-as.matrix(sci[,7]); indus<-as.matrix(sci[,8]); forgn<-as.matrix(sci[,9]); popul<-as.matrix(sci[,10])
+X <- as.matrix(sci[,5:10])
+Y <- as.matrix(sci[,4])
+
+fit.lm<-lm(Y ~ sci.tech+edu+gdp+indus+forgn+popul, data=sci)
+summary(fit.lm)
+```

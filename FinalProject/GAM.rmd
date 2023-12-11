@@ -1,0 +1,13 @@
+```{r}
+library(mgcv)
+# 假设数据已加载到名为data的数据框中
+data <- read.csv("mydata.csv", header = TRUE, sep = ",")
+# 选择自变量和因变量
+X <- data[, 4:ncol(data)]  # 选择除了前三列之外的所有列作为自变量
+y <- data$zhuanli  # 选择专利列作为因变量
+# 拟合 GAM 模型
+gam_model <- gam(y ~ s(keji) + s(jiaoyu) + s(rgdp) + s(gongye) + s(waizi) + s(renkou), data = data)
+# 查看模型摘要
+summary(gam_model)
+
+```

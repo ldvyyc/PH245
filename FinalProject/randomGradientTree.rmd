@@ -12,3 +12,14 @@ importance_df <- data.frame(variable = colnames(X), importance = rf_model$variab
 # 打印结果
 print(importance_df)
 ```
+
+```{r}
+library(ggplot2)
+# draw the importance plot, x index is the colname
+importance_df <- importance_df[order(importance_df$importance, decreasing = TRUE), ]
+importance_df$variable <- factor(importance_df$variable, levels = importance_df$variable)
+ggplot(importance_df, aes(x = variable, y = importance)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Variable", y = "Importance")
+```

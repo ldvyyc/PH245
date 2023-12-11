@@ -31,15 +31,33 @@ plot(lasso_model)  # 绘制模型图
 ```
 
 ```{r}
-
 # 输出选择的lambda（正则化参数）
 print(lasso_model$lambda)
-
 # 输出非零系数的变量
 print(coef(lasso_model))
+```
 
-# 预测（可选）
-# predictions <- predict(lasso_model, newx = scale(as.matrix(test_data[, 4:ncol(test_data)])), s = "lambda.min")
-# print(predictions)
+```{r}
+# 获取最佳lambda值下的系数
+best_lambda <- lasso_model$lambda.min
+best_coefficients <- coef(lasso_model, s = best_lambda)
+# 提取系数的绝对值
+abs_coefficients <- abs(best_coefficients)
+```
 
+```{r}
+print(abs_coefficients)
+```
+
+From the result we can see that education and Industry have the highest absolute coefficients, which means they are the most important factors that affect the number of patents.
+
+```{r}
+# 获取最佳lambda值下的标准误差
+se <- sqrt(diag(lasso_model$cvm)[lasso_model$lambda == best_lambda])
+# 计算t统计量
+t_stat <- abs(lasso_model$beta[, lasso_model$lambda == best_lambda] / se)
+# 对应的p-value
+p_values <- 2 * (1 - pnorm(t_stat))
+# 打印结果
+print(t_stat)
 ```

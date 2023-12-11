@@ -6,14 +6,15 @@ data <- read.csv("mydata.csv", header = TRUE, sep = ",")
 # 选择自变量和因变量
 X <- data[, 4:ncol(data)]  # 选择除了前三列之外的所有列作为自变量
 y <- data$zhuanli  # 选择专利列作为因变量
-
 # 创建随机森林回归模型
 rf_model <- randomForest(x = X, y = y, ntree = 500, importance = TRUE)
-
 # 获取各个自变量的重要性
 importance_df <- as.data.frame(importance(rf_model))
-
 # 打印结果
 print(importance_df)
+```
 
+```{r}
+var_importance <- importance(rf_model)
+varImpPlot(rf_model)
 ```
